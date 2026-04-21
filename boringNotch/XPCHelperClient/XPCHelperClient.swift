@@ -1,5 +1,6 @@
 import Foundation
 import Cocoa
+import ApplicationServices
 import AsyncXPCConnection
 
 final class XPCHelperClient: NSObject {
@@ -98,52 +99,54 @@ final class XPCHelperClient: NSObject {
     // MARK: - Accessibility
     
     nonisolated func requestAccessibilityAuthorization() {
-        Task {
-            let service = await MainActor.run {
-                ensureRemoteService()
-            }
-            try? await service.withService { service in
-                service.requestAccessibilityAuthorization()
-            }
+        let granted = Self.checkAccessibilityAuthorization(promptIfNeeded: true)
+        Task { @MainActor in
+            notifyAuthorizationChange(granted)
         }
     }
     
     nonisolated func isAccessibilityAuthorized() async -> Bool {
-        do {
-            let service = await MainActor.run {
-                ensureRemoteService()
-            }
-            let result: Bool = try await service.withContinuation { service, continuation in
-                service.isAccessibilityAuthorized { authorized in
-                    continuation.resume(returning: authorized)
-                }
-            }
-            await MainActor.run {
-                notifyAuthorizationChange(result)
-            }
-            return result
-        } catch {
-            return false
+        let result = Self.checkAccessibilityAuthorization()
+        await MainActor.run {
+            notifyAuthorizationChange(result)
         }
+        return result
     }
     
     nonisolated func ensureAccessibilityAuthorization(promptIfNeeded: Bool) async -> Bool {
-        do {
-            let service = await MainActor.run {
-                ensureRemoteService()
-            }
-            let result: Bool = try await service.withContinuation { service, continuation in
-                service.ensureAccessibilityAuthorization(promptIfNeeded) { authorized in
-                    continuation.resume(returning: authorized)
-                }
-            }
+        let initialResult = Self.checkAccessibilityAuthorization(promptIfNeeded: promptIfNeeded)
+        if initialResult || !promptIfNeeded {
             await MainActor.run {
-                notifyAuthorizationChange(result)
+                notifyAuthorizationChange(initialResult)
             }
-            return result
-        } catch {
-            return false
+            return initialResult
         }
+
+        // The system prompt returns immediately, so poll briefly for the user's decision.
+        for _ in 0..<40 {
+            try? await Task.sleep(for: .milliseconds(250))
+            let authorized = Self.checkAccessibilityAuthorization()
+            if authorized {
+                await MainActor.run {
+                    notifyAuthorizationChange(true)
+                }
+                return true
+            }
+        }
+
+        await MainActor.run {
+            notifyAuthorizationChange(false)
+        }
+        return false
+    }
+
+    private nonisolated static func checkAccessibilityAuthorization(promptIfNeeded: Bool = false) -> Bool {
+        guard promptIfNeeded else {
+            return AXIsProcessTrusted()
+        }
+
+        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
+        return AXIsProcessTrustedWithOptions(options)
     }
     
     // MARK: - Keyboard Brightness
@@ -246,5 +249,4 @@ final class XPCHelperClient: NSObject {
 extension Notification.Name {
     static let accessibilityAuthorizationChanged = Notification.Name("accessibilityAuthorizationChanged")
 }
-
 
