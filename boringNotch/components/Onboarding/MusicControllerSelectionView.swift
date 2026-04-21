@@ -8,6 +8,9 @@
 import SwiftUI
 import Defaults
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
 
 struct MusicControllerSelectionView: View {
     let onContinue: () -> Void
@@ -88,11 +91,11 @@ struct ControllerOptionView: View {
                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(controller.rawValue)
+                Text(controller.displayName)
                     .font(.headline)
                     .fontWeight(.semibold)
 
-                Text(controller.description)
+                Text(controller.localizedDescription)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
@@ -120,16 +123,16 @@ struct ControllerOptionView: View {
 
 
 extension MediaControllerType {
-    var description: String {
+    var localizedDescription: String {
         switch self {
         case .nowPlaying:
-            return "Works with most media apps, including browsers, to detect what's playing. Note: This may be removed in a future macOS version."
+            return L("Works with most media apps, including browsers, to detect what's playing. Note: This may be removed in a future macOS version.")
         case .spotify:
-            return "Connects directly to the Spotify app."
+            return L("Connects directly to the Spotify app.")
         case .appleMusic:
-            return "Connects directly to the Apple Music app."
+            return L("Connects directly to the Apple Music app.")
         case .youtubeMusic:
-            return "Requires a third-party client with API plugin enabled."
+            return L("Requires a third-party client with API plugin enabled.")
         }
     }
 }

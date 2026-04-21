@@ -8,6 +8,10 @@
 import SwiftUI
 import Defaults
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 struct SystemEventIndicatorModifier: View {
     @EnvironmentObject var vm: BoringViewModel
     @Binding var eventType: SneakContentType
@@ -40,7 +44,7 @@ struct SystemEventIndicatorModifier: View {
                             .frame(width: 20, height: 15, alignment: .leading)
                     }
                 case .brightness:
-                    Image(systemName: "sun.max.fill")
+                    BoringIcon.image("sun", fallbackSystemName: "sun.max.fill")
                         .contentTransition(.symbolEffect)
                         .frame(width: 20, height: 15)
                         .foregroundStyle(.white)
@@ -68,7 +72,7 @@ struct SystemEventIndicatorModifier: View {
                         .frame(width: 35, alignment: .trailing)
                 }
             } else {
-                Text("Mic \(value > 0 ? "unmuted" : "muted")")
+                Text(String(format: L("Mic %@"), value > 0 ? L("unmuted") : L("muted")))
                     .foregroundStyle(.gray)
                     .lineLimit(1)
                     .allowsTightening(true)

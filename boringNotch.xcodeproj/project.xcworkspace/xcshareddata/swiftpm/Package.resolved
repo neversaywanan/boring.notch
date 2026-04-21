@@ -1,5 +1,5 @@
 {
-  "originHash" : "ab961f5de25797b1a82bd0f8c39b561332a3dfe10de0a118e1252262fbd45864",
+  "originHash" : "30fbf7575f15f4222036b84494e7962d77b2397c3d5f195912a78c2e8f99bd06",
   "pins" : [
     {
       "identity" : "asyncxpcconnection",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "a04ec1c363be3627734f6dad757d82f5d4fa8fcc",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "lucide-icons-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JakubMazur/lucide-icons-swift",
+      "state" : {
+        "revision" : "e849bf87d48e8d2fada8d77f9eb91e3139d545de",
+        "version" : "1.8.0"
       }
     },
     {

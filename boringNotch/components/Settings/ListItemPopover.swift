@@ -15,7 +15,7 @@ struct ListItemPopover<Content: View>: View {
         Button {
             isPresented.toggle()
         } label: {
-            Image(systemName: "info.circle")
+            BoringIcon.image("info", fallbackSystemName: "info.circle")
                 .foregroundStyle(.secondary)
         }
         .controlSize(.regular)
@@ -25,4 +25,3 @@ struct ListItemPopover<Content: View>: View {
         })
     }
 }
-

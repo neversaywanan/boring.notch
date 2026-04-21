@@ -51,10 +51,13 @@ class BoringViewCoordinator: ObservableObject {
     static let shared = BoringViewCoordinator()
 
     @Published var currentView: NotchViews = .home
+    @Published private(set) var currentViewTransitionDirection: NotchViewTransitionDirection = .forward
     @Published var helloAnimationRunning: Bool = false
     private var sneakPeekDispatch: DispatchWorkItem?
     private var expandingViewDispatch: DispatchWorkItem?
     private var hudEnableTask: Task<Void, Never>?
+
+    private let pageSwitchAnimation = Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)
 
     @AppStorage("firstLaunch") var firstLaunch: Bool = true
     @AppStorage("showWhatsNew") var showWhatsNew: Bool = true
@@ -66,7 +69,7 @@ class BoringViewCoordinator: ObservableObject {
             if !alwaysShowTabs {
                 openLastTabByDefault = false
                 if ShelfStateViewModel.shared.isEmpty || !Defaults[.openShelfByDefault] {
-                    currentView = .home
+                    setCurrentView(.home, animated: false)
                 }
             }
         }
@@ -293,8 +296,44 @@ class BoringViewCoordinator: ObservableObject {
             }
         }
     }
+
+    func setCurrentView(_ view: NotchViews, animated: Bool = true) {
+        let previousView = currentView
+        currentViewTransitionDirection = transitionDirection(from: previousView, to: view)
+
+        guard previousView != view else { return }
+
+        if animated {
+            withAnimation(pageSwitchAnimation) {
+                currentView = view
+            }
+        } else {
+            var transaction = Transaction(animation: nil)
+            withTransaction(transaction) {
+                currentView = view
+            }
+        }
+    }
     
     func showEmpty() {
-        currentView = .home
+        setCurrentView(.home, animated: false)
     }
+
+    private func transitionDirection(from oldView: NotchViews, to newView: NotchViews) -> NotchViewTransitionDirection {
+        pageRank(for: newView) >= pageRank(for: oldView) ? .forward : .backward
+    }
+
+    private func pageRank(for view: NotchViews) -> Int {
+        switch view {
+        case .home:
+            return 0
+        case .shelf:
+            return 1
+        }
+    }
+}
+
+enum NotchViewTransitionDirection {
+    case forward
+    case backward
 }

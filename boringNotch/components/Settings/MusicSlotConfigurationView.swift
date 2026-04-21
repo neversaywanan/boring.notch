@@ -80,7 +80,7 @@ struct MusicSlotConfigurationView: View {
                         .fill(Color(NSColor.controlBackgroundColor))
                         .frame(width: 56, height: 56)
 
-                    Image(systemName: "trash")
+                    BoringIcon.image("trash-2", fallbackSystemName: "trash")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(Color.primary)
                 }

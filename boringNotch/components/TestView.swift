@@ -67,7 +67,7 @@ struct FluidSlider: View {
                 .fill(Color.black)
                 .frame(width: circleSize * 0.6)
                 .overlay {
-                    Image(systemName: "speaker.wave.2.fill")
+                    BoringIcon.image("volume-2", fallbackSystemName: "speaker.wave.2.fill")
                         .imageScale(.small)
                 }
                 .offset(x: (-rectSize2.width/2) + (circleSize/2))

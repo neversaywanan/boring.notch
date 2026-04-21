@@ -8,6 +8,10 @@
 import Defaults
 import SwiftUI
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 struct Config: Equatable {
     //    var count: Int = 10  // 3 days past + today + 7 days future
     var past: Int = 7
@@ -250,10 +254,10 @@ struct EmptyEventsView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "calendar.badge.checkmark")
+            BoringIcon.image("calendar-check", fallbackSystemName: "calendar.badge.checkmark")
                 .font(.title)
                 .foregroundColor(Color(white: 0.65))
-            Text(Calendar.current.isDateInToday(selectedDate) ? "No events today" : "No events")
+            Text(Calendar.current.isDateInToday(selectedDate) ? L("No events today") : L("No events"))
                 .font(.subheadline)
                 .foregroundColor(.white)
             Text("Enjoy your free time!")
@@ -468,7 +472,7 @@ struct ReminderToggle: View {
         }
         .buttonStyle(PlainButtonStyle())
         .padding(0)
-        .accessibilityLabel(isOn ? "Mark as incomplete" : "Mark as complete")
+        .accessibilityLabel(isOn ? L("Mark as incomplete") : L("Mark as complete"))
     }
 }
 

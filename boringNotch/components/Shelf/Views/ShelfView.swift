@@ -81,9 +81,7 @@ struct ShelfView: View {
         Group {
             if tvm.isEmpty {
                 VStack(spacing: 10) {
-                    Image(systemName: "tray.and.arrow.down")
-                        .symbolVariant(.fill)
-                        .symbolRenderingMode(.hierarchical)
+                    BoringIcon.image("inbox", fallbackSystemName: "tray.and.arrow.down")
                         .foregroundStyle(.white, .gray)
                         .imageScale(.large)
                     

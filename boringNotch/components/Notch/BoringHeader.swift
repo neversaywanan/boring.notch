@@ -50,7 +50,7 @@ struct BoringHeader: View {
                                     .fill(.black)
                                     .frame(width: 30, height: 30)
                                     .overlay {
-                                        Image(systemName: "web.camera")
+                                        BoringIcon.image("camera", fallbackSystemName: "web.camera")
                                             .foregroundColor(.white)
                                             .padding()
                                             .imageScale(.medium)
@@ -69,7 +69,7 @@ struct BoringHeader: View {
                                     .fill(.black)
                                     .frame(width: 30, height: 30)
                                     .overlay {
-                                        Image(systemName: "gear")
+                                        BoringIcon.image("settings", fallbackSystemName: "gear")
                                             .foregroundColor(.white)
                                             .padding()
                                             .imageScale(.medium)

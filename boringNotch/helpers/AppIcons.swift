@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import LucideIcons
 
 struct AppIcons {
     
@@ -59,3 +60,30 @@ func AppIconAsNSImage(for bundleID: String) -> NSImage? {
     return nil
 }
 
+enum BoringIcon {
+    static func image(_ lucideId: String, fallbackSystemName: String) -> Image {
+        Image(nsImage: nsImage(lucideId, fallbackSystemName: fallbackSystemName))
+            .renderingMode(.template)
+    }
+
+    static func nsImage(
+        _ lucideId: String,
+        fallbackSystemName: String,
+        accessibilityDescription: String? = nil
+    ) -> NSImage {
+        if let lucideImage = NSImage.image(lucideId: lucideId) {
+            let image = (lucideImage.copy() as? NSImage) ?? lucideImage
+            image.isTemplate = true
+            return image
+        }
+
+        if let systemImage = NSImage(
+            systemSymbolName: fallbackSystemName,
+            accessibilityDescription: accessibilityDescription
+        ) {
+            return systemImage
+        }
+
+        return NSImage(size: NSSize(width: 16, height: 16))
+    }
+}

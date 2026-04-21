@@ -10,6 +10,10 @@ import SwiftUI
 import Defaults
 import Sparkle
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 class SettingsWindowController: NSWindowController {
     static let shared = SettingsWindowController()
     private var updaterController: SPUStandardUpdaterController?
@@ -40,7 +44,7 @@ class SettingsWindowController: NSWindowController {
     private func setupWindow() {
         guard let window = window else { return }
         
-        window.title = "Boring Notch Settings"
+        window.title = L("Boring Notch Settings")
         window.titlebarAppearsTransparent = false
         window.titleVisibility = .visible
         window.toolbarStyle = .unified

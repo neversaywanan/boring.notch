@@ -9,6 +9,10 @@ import Combine
 import Defaults
 import SwiftUI
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 class BoringViewModel: NSObject, ObservableObject {
     @ObservedObject var coordinator = BoringViewCoordinator.shared
     @ObservedObject var detector = FullscreenMediaDetector.shared
@@ -149,10 +153,10 @@ class BoringViewModel: NSObject, ObservableObject {
                 NSApp.activate(ignoringOtherApps: true)
 
                 let alert = NSAlert()
-                alert.messageText = "Camera Access Required"
-                alert.informativeText = "Please allow camera access in System Settings."
-                alert.addButton(withTitle: "Open Settings")
-                alert.addButton(withTitle: "Cancel")
+                alert.messageText = L("Camera Access Required")
+                alert.informativeText = L("Please allow camera access in System Settings.")
+                alert.addButton(withTitle: L("Open Settings"))
+                alert.addButton(withTitle: L("Cancel"))
 
                 if alert.runModal() == .alertFirstButtonReturn {
                     if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera") {
@@ -212,9 +216,9 @@ class BoringViewModel: NSObject, ObservableObject {
         // Set the current view to shelf if it contains files and the user enables openShelfByDefault
         // Otherwise, if the user has not enabled openLastShelfByDefault, set the view to home
     if !ShelfStateViewModel.shared.isEmpty && Defaults[.openShelfByDefault] {
-            coordinator.currentView = .shelf
+            coordinator.setCurrentView(.shelf, animated: false)
         } else if !coordinator.openLastTabByDefault {
-            coordinator.currentView = .home
+            coordinator.setCurrentView(.home, animated: false)
         }
     }
 

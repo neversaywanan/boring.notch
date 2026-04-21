@@ -8,6 +8,10 @@
 import SwiftUI
 import Defaults
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 struct OpenNotchHUD: View {
     @EnvironmentObject var vm: BoringViewModel
     @Binding var type: SneakContentType
@@ -29,7 +33,7 @@ struct OpenNotchHUD: View {
                             .contentTransition(.interpolate)
                     }
                 case .brightness:
-                    Image(systemName: "sun.max.fill")
+                    BoringIcon.image("sun", fallbackSystemName: "sun.max.fill")
                         .contentTransition(.symbolEffect)
                 case .backlight:
                     Image(systemName: value > 0.5 ? "light.max" : "light.min")
@@ -53,7 +57,7 @@ struct OpenNotchHUD: View {
                 })
                 .frame(width: showPercentage ? 65 : 108) // Fixed width for consistency
             } else {
-                Text(value > 0 ? "Unmuted" : "Muted")
+                Text(value > 0 ? L("Unmuted") : L("Muted"))
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(.white)
                     .fixedSize()

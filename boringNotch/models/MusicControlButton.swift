@@ -6,6 +6,11 @@
 //
 
 import Defaults
+import Foundation
+
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
 
 enum MusicControlButton: String, CaseIterable, Identifiable, Codable, Defaults.Serializable {
     case shuffle
@@ -47,25 +52,25 @@ enum MusicControlButton: String, CaseIterable, Identifiable, Codable, Defaults.S
     var label: String {
         switch self {
         case .shuffle:
-            return "Shuffle"
+            return L("Shuffle")
         case .previous:
-            return "Previous"
+            return L("Previous")
         case .playPause:
-            return "Play/Pause"
+            return L("Play/Pause")
         case .next:
-            return "Next"
+            return L("Next")
         case .repeatMode:
-            return "Repeat"
+            return L("Repeat")
         case .volume:
-            return "Volume"
+            return L("Volume")
         case .favorite:
-            return "Favorite"
+            return L("Favorite")
         case .goBackward:
-            return "Backward 15s"
+            return L("Backward 15s")
         case .goForward:
-            return "Forward 15s"
+            return L("Forward 15s")
         case .none:
-            return "Empty slot"
+            return L("Empty slot")
         }
     }
 

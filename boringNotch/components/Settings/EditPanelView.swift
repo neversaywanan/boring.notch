@@ -19,7 +19,11 @@ struct EditPanelView: View {
                 Button {
                     exit(0)
                 } label: {
-                    Label("Close", systemImage: "xmark")
+                    Label {
+                        Text("Close")
+                    } icon: {
+                        BoringIcon.image("x", fallbackSystemName: "xmark")
+                    }
                 }
                 .controlSize(.extraLarge)
                 .buttonStyle(AccessoryBarButtonStyle())

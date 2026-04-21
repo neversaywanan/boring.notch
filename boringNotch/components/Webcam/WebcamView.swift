@@ -9,6 +9,10 @@ import AVFoundation
 import Defaults
 import SwiftUI
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 struct CameraPreviewView: View {
     @EnvironmentObject var vm: BoringViewModel
     @ObservedObject var webcamManager: WebcamManager
@@ -37,7 +41,7 @@ struct CameraPreviewView: View {
                             Image(systemName: webcamManager.authorizationStatus == .denied ? "exclamationmark.triangle" : "web.camera")
                                 .foregroundStyle(.gray)
                                 .font(.system(size: geometry.size.width/3.5))
-                            Text(webcamManager.authorizationStatus == .denied ? "Access Denied" : "Mirror")
+                            Text(webcamManager.authorizationStatus == .denied ? L("Access Denied") : L("Mirror"))
                                 .font(.caption2)
                                 .foregroundColor(.gray)
                         }
@@ -69,10 +73,10 @@ struct CameraPreviewView: View {
         case .denied, .restricted:
             DispatchQueue.main.async {
                 let alert = NSAlert()
-                alert.messageText = "Camera Access Required"
-                alert.informativeText = "Please allow camera access in System Settings to use the mirror feature."
-                alert.addButton(withTitle: "Open System Settings")
-                alert.addButton(withTitle: "Cancel")
+                alert.messageText = L("Camera Access Required")
+                alert.informativeText = L("Please allow camera access in System Settings to use the mirror feature.")
+                alert.addButton(withTitle: L("Open System Settings"))
+                alert.addButton(withTitle: L("Cancel"))
 
                 if alert.runModal() == .alertFirstButtonReturn {
                     if let settingsURL = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera") {

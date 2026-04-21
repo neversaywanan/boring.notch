@@ -8,6 +8,10 @@
 import SwiftUI
 import Defaults
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 struct InlineHUD: View {
     @EnvironmentObject var vm: BoringViewModel
     @Binding var type: SneakContentType
@@ -69,7 +73,7 @@ struct InlineHUD: View {
             
             HStack {
                 if (type == .mic) {
-                    Text(value.isZero ? "muted" : "unmuted")
+                    Text(value.isZero ? L("muted") : L("unmuted"))
                         .foregroundStyle(.gray)
                         .lineLimit(1)
                         .allowsTightening(true)
@@ -86,7 +90,7 @@ struct InlineHUD: View {
                             }
                         })
                         if (type == .volume && value.isZero) {
-                            Text("muted")
+                            Text(L("muted"))
                                 .font(.caption)
                                 .fontWeight(.medium)
                                 .foregroundStyle(.gray)
@@ -140,13 +144,13 @@ struct InlineHUD: View {
     func Type2Name(_ type: SneakContentType) -> String {
         switch(type) {
             case .volume:
-                return "Volume"
+                return L("Volume")
             case .brightness:
-                return "Brightness"
+                return L("Brightness")
             case .backlight:
-                return "Backlight"
+                return L("Backlight")
             case .mic:
-                return "Mic"
+                return L("Mic")
             default:
                 return ""
         }

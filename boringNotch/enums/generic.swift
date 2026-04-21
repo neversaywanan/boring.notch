@@ -43,17 +43,29 @@ enum SettingsEnum {
 enum DownloadIndicatorStyle: String, Defaults.Serializable {
     case progress = "Progress"
     case percentage = "Percentage"
+
+    var localizedTitle: String {
+        NSLocalizedString(rawValue, comment: "")
+    }
 }
 
 enum DownloadIconStyle: String, Defaults.Serializable {
     case onlyAppIcon = "Only app icon"
     case onlyIcon = "Only download icon"
     case iconAndAppIcon = "Icon and app icon"
+
+    var localizedTitle: String {
+        NSLocalizedString(rawValue, comment: "")
+    }
 }
 
 enum MirrorShapeEnum: String, Defaults.Serializable {
     case rectangle = "Rectangular"
     case circle = "Circular"
+
+    var localizedTitle: String {
+        NSLocalizedString(rawValue, comment: "")
+    }
 }
 
 enum WindowHeightMode: String, Defaults.Serializable {
@@ -66,4 +78,8 @@ enum SliderColorEnum: String, CaseIterable, Defaults.Serializable {
     case white = "White"
     case albumArt = "Match album art"
     case accent = "Accent color"
+
+    var localizedTitle: String {
+        NSLocalizedString(rawValue, comment: "")
+    }
 }

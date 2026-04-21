@@ -115,27 +115,47 @@ struct BatteryMenuView: View {
                     .font(.subheadline)
                     .fontWeight(.regular)
                 if isInLowPowerMode {
-                    Label("Low Power Mode", systemImage: "bolt.circle")
+                    Label {
+                        Text("Low Power Mode")
+                    } icon: {
+                        BoringIcon.image("bolt", fallbackSystemName: "bolt.circle")
+                    }
                         .font(.subheadline)
                         .fontWeight(.regular)
                 }
                 if isCharging {
-                    Label("Charging", systemImage: "bolt.fill")
+                    Label {
+                        Text("Charging")
+                    } icon: {
+                        BoringIcon.image("bolt", fallbackSystemName: "bolt.fill")
+                    }
                         .font(.subheadline)
                         .fontWeight(.regular)
                 }
                 if isPluggedIn {
-                    Label("Plugged In", systemImage: "powerplug.fill")
+                    Label {
+                        Text("Plugged In")
+                    } icon: {
+                        BoringIcon.image("plug", fallbackSystemName: "powerplug.fill")
+                    }
                         .font(.subheadline)
                         .fontWeight(.regular)
                 }
                 if timeToFullCharge > 0 {
-                    Label("Time to Full Charge: \(timeToFullCharge) min", systemImage: "clock")
+                    Label {
+                        Text("Time to Full Charge: \(timeToFullCharge) min")
+                    } icon: {
+                        BoringIcon.image("clock-3", fallbackSystemName: "clock")
+                    }
                         .font(.subheadline)
                         .fontWeight(.regular)
                 }
                 if !isCharging && isPluggedIn && levelBattery >= 80 {
-                    Label("Charging on Hold: Desktop Mode", systemImage: "desktopcomputer")
+                    Label {
+                        Text("Charging on Hold: Desktop Mode")
+                    } icon: {
+                        BoringIcon.image("monitor", fallbackSystemName: "desktopcomputer")
+                    }
                         .font(.subheadline)
                         .fontWeight(.regular)
                 }
@@ -146,7 +166,11 @@ struct BatteryMenuView: View {
             Divider().background(Color.white)
 
             Button(action: openBatteryPreferences) {
-                Label("Battery Settings", systemImage: "gearshape")
+                Label {
+                    Text("Battery Settings")
+                } icon: {
+                    BoringIcon.image("settings", fallbackSystemName: "gearshape")
+                }
                     .fontWeight(.regular)
             }
             .frame(maxWidth: .infinity)

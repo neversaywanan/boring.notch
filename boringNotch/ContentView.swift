@@ -39,6 +39,7 @@ struct ContentView: View {
 
     // Shared interactive spring for movement/resizing to avoid conflicting animations
     private let animationSpring = Animation.interactiveSpring(response: 0.38, dampingFraction: 0.8, blendDuration: 0)
+    private let pageTransitionAnimation = Animation.interactiveSpring(response: 0.32, dampingFraction: 0.86, blendDuration: 0)
 
     private let extendedHoverPadding: CGFloat = 30
     private let zeroHeightHoverPadding: CGFloat = 10
@@ -219,7 +220,7 @@ struct ContentView: View {
 
             if isTargeted {
                 if vm.notchState == .closed {
-                    coordinator.currentView = .shelf
+                    coordinator.setCurrentView(.shelf, animated: false)
                     doOpen()
                 }
                 return
@@ -322,10 +323,10 @@ struct ContentView: View {
                               .padding(.trailing, 8)
                           }
                           // Old sneak peek music
-                          else if coordinator.sneakPeek.type == .music {
+                              else if coordinator.sneakPeek.type == .music {
                               if vm.notchState == .closed && !vm.hideOnClosed && Defaults[.sneakPeekStyles] == .standard {
                                   HStack(alignment: .center) {
-                                      Image(systemName: "music.note")
+                                      BoringIcon.image("music", fallbackSystemName: "music.note")
                                       GeometryReader { geo in
                                           MarqueeText(.constant(musicManager.songTitle + " - " + musicManager.artistName),  textColor: Defaults[.playerColorTinting] ? Color(nsColor: musicManager.avgColor).ensureMinimumBrightness(factor: 0.6) : .gray, minDuration: 1, frameWidth: geo.size.width)
                                       }
@@ -343,19 +344,21 @@ struct ContentView: View {
               }
               .zIndex(2)
             if vm.notchState == .open {
-                VStack {
-                    switch coordinator.currentView {
-                    case .home:
+                ZStack {
+                    if coordinator.currentView == .home {
                         NotchHomeView(albumArtNamespace: albumArtNamespace)
-                    case .shelf:
+                            .transition(pageTransition(for: coordinator.currentViewTransitionDirection))
+                            .zIndex(coordinator.currentView == .home ? 1 : 0)
+                    }
+
+                    if coordinator.currentView == .shelf {
                         ShelfView()
+                            .transition(pageTransition(for: coordinator.currentViewTransitionDirection))
+                            .zIndex(coordinator.currentView == .shelf ? 1 : 0)
                     }
                 }
-                .transition(
-                    .scale(scale: 0.8, anchor: .top)
-                    .combined(with: .opacity)
-                    .animation(.smooth(duration: 0.35))
-                )
+                .clipped()
+                .animation(pageTransitionAnimation, value: coordinator.currentView)
                 .zIndex(1)
                 .allowsHitTesting(vm.notchState == .open)
                 .opacity(gestureProgress != 0 ? 1.0 - min(abs(gestureProgress) * 0.1, 0.3) : 1.0)
@@ -608,6 +611,16 @@ struct ContentView: View {
                 haptics.toggle()
             }
         }
+    }
+
+    private func pageTransition(for direction: NotchViewTransitionDirection) -> AnyTransition {
+        let insertionEdge: Edge = direction == .forward ? .trailing : .leading
+        let removalEdge: Edge = direction == .forward ? .leading : .trailing
+
+        return .asymmetric(
+            insertion: .move(edge: insertionEdge).combined(with: .opacity),
+            removal: .move(edge: removalEdge).combined(with: .opacity)
+        )
     }
 }
 

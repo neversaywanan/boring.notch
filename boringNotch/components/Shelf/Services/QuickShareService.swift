@@ -9,15 +9,27 @@ import AppKit
 import Foundation
 import UniformTypeIdentifiers
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 /// Dynamic representation of a sharing provider discovered at runtime
 struct QuickShareProvider: Identifiable, Hashable, Sendable {
     var id: String
     var imageData: Data?
     var supportsRawText: Bool
+
+    var displayName: String {
+        if id == QuickShareService.systemShareMenuProviderID {
+            return L("System Share Menu")
+        }
+        return id
+    }
 }
 
 class QuickShareService: ObservableObject {
     static let shared = QuickShareService()
+    static let systemShareMenuProviderID = "System Share Menu"
     
     @Published var availableProviders: [QuickShareProvider] = []
     @Published var isPickerOpen = false
@@ -65,8 +77,8 @@ class QuickShareService: ObservableObject {
             providers.insert(ad, at: 0)
         }
 
-        if !providers.contains(where: { $0.id == "System Share Menu" }) {
-            providers.append(QuickShareProvider(id: "System Share Menu", imageData: nil, supportsRawText: true))
+        if !providers.contains(where: { $0.id == Self.systemShareMenuProviderID }) {
+            providers.append(QuickShareProvider(id: Self.systemShareMenuProviderID, imageData: nil, supportsRawText: true))
         }
 
         self.availableProviders = providers
@@ -88,8 +100,8 @@ class QuickShareService: ObservableObject {
         panel.allowsMultipleSelection = true
         panel.canChooseDirectories = true
         panel.canChooseFiles = true
-        panel.title = "Select Files for \(provider.id)"
-        panel.message = "Choose files to share via \(provider.id)"
+        panel.title = String(format: L("Select Files for %@"), provider.displayName)
+        panel.message = String(format: L("Choose files to share via %@"), provider.displayName)
 
         let completion: (NSApplication.ModalResponse) -> Void = { [weak self] response in
             defer {
@@ -206,6 +218,6 @@ extension QuickShareProvider {
         if let airdrop = svc.availableProviders.first(where: { $0.id == "AirDrop" }) {
             return airdrop
         }
-        return svc.availableProviders.first ?? QuickShareProvider(id: "System Share Menu", imageData: nil, supportsRawText: true)
+        return svc.availableProviders.first ?? QuickShareProvider(id: QuickShareService.systemShareMenuProviderID, imageData: nil, supportsRawText: true)
     }
 }

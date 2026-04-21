@@ -34,7 +34,7 @@ struct PermissionRequestView: View {
 
             if let privacyNote = privacyNote {
                 HStack(spacing: 8) {
-                    Image(systemName: "lock.shield")
+                    BoringIcon.image("shield-check", fallbackSystemName: "lock.shield")
                         .foregroundColor(.secondary)
                     Text(privacyNote)
                         .font(.subheadline)

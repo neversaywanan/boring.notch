@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 struct BoringLargeButtons: View {
     var action: () -> Void
     var icon: Image
@@ -48,7 +52,7 @@ struct BoringExtrasMenu : View {
                 }
             },
             icon: Image(.github),
-            title: "Checkout"
+            title: L("Checkout")
         )
     }
     
@@ -61,9 +65,9 @@ struct BoringExtrasMenu : View {
             ZStack {
                 RoundedRectangle(cornerRadius: 12.0).fill(.black).frame(width: 70, height: 70)
                 VStack(spacing: 8) {
-                    Image(systemName: "gear").resizable()
+                    BoringIcon.image("settings", fallbackSystemName: "gear").resizable()
                         .aspectRatio(contentMode: .fit).frame(width:20)
-                    Text("Settings").font(.body)
+                    Text(L("Settings")).font(.body)
                 }
             }
         }
@@ -77,8 +81,8 @@ struct BoringExtrasMenu : View {
                     //vm.openMusic()
                 }
             },
-            icon: Image(systemName: "arrow.down.forward.and.arrow.up.backward"),
-            title: "Hide"
+            icon: BoringIcon.image("minimize", fallbackSystemName: "arrow.down.forward.and.arrow.up.backward"),
+            title: L("Hide")
         )
     }
     
@@ -91,8 +95,8 @@ struct BoringExtrasMenu : View {
                     }
                 }
             },
-            icon: Image(systemName: "xmark"),
-            title: "Exit"
+            icon: BoringIcon.image("x", fallbackSystemName: "xmark"),
+            title: L("Exit")
         )
     }
 }

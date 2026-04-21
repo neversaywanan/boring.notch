@@ -16,7 +16,7 @@ struct OnboardingFinishView: View {
         VStack(spacing: 20) {
             Spacer()
 
-            Image(systemName: "sparkles")
+            BoringIcon.image("sparkles", fallbackSystemName: "sparkles")
                 .font(.system(size: 60))
                 .foregroundColor(.effectiveAccent)
                 .padding()
@@ -36,8 +36,12 @@ struct OnboardingFinishView: View {
 
             VStack(spacing: 12) {
                 Button(action: onOpenSettings) {
-                    Label("Customize in Settings", systemImage: "gear")
-                        .controlSize(.large)
+                    Label {
+                        Text("Customize in Settings")
+                    } icon: {
+                        BoringIcon.image("settings", fallbackSystemName: "gear")
+                    }
+                    .controlSize(.large)
                 }
                 .controlSize(.large)
 

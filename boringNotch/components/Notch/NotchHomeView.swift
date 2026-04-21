@@ -10,6 +10,10 @@ import Combine
 import Defaults
 import SwiftUI
 
+private func L(_ key: String) -> String {
+    NSLocalizedString(key, comment: "")
+}
+
 // MARK: - Music Player Components
 
 struct MusicPlayerView: View {
@@ -162,12 +166,12 @@ struct MusicControlsView: View {
                         return min(max(progressed, 0), musicManager.songDuration)
                     }()
                     let line: String = {
-                        if musicManager.isFetchingLyrics { return "Loading lyrics…" }
+                        if musicManager.isFetchingLyrics { return L("Loading lyrics…") }
                         if !musicManager.syncedLyrics.isEmpty {
                             return musicManager.lyricLine(at: currentElapsed)
                         }
                         let trimmed = musicManager.currentLyrics.trimmingCharacters(in: .whitespacesAndNewlines)
-                        return trimmed.isEmpty ? "No lyrics found" : trimmed.replacingOccurrences(of: "\n", with: " ")
+                        return trimmed.isEmpty ? L("No lyrics found") : trimmed.replacingOccurrences(of: "\n", with: " ")
                     }()
                     let isPersian = line.unicodeScalars.contains { scalar in
                         let v = scalar.value
@@ -431,8 +435,6 @@ struct NotchHomeView: View {
                 mainContent
             }
         }
-        // simplified: use a straightforward opacity transition
-        .transition(.opacity)
     }
 
     private var shouldShowCamera: Bool {
@@ -461,7 +463,6 @@ struct NotchHomeView: View {
                     .animation(.interactiveSpring(response: 0.32, dampingFraction: 0.76, blendDuration: 0), value: shouldShowCamera)
             }
         }
-        .transition(.asymmetric(insertion: .opacity.combined(with: .move(edge: .top)), removal: .opacity))
         .blur(radius: vm.notchState == .closed ? 30 : 0)
     }
 }
