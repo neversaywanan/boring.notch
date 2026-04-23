@@ -329,6 +329,8 @@ class BoringViewCoordinator: ObservableObject {
             return 0
         case .shelf:
             return 1
+        case .clipboard:
+            return 2
         }
     }
 }

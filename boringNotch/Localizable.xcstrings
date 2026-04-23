@@ -518,6 +518,22 @@
         }
       }
     },
+    "%.0fs ago" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.0fs ago"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.0f秒前"
+          }
+        }
+      }
+    },
     "%.1fs" : {
       "localizations" : {
         "ar" : {
@@ -830,6 +846,38 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "%d%%"
+          }
+        }
+      }
+    },
+    "%dh ago" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dh ago"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d小时前"
+          }
+        }
+      }
+    },
+    "%dm ago" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dm ago"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d分钟前"
           }
         }
       }
@@ -2850,6 +2898,106 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apple Music"
+          }
+        }
+      }
+    },
+    "Auto-close delay" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-close delay"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "자동 닫기 지연 시간"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Opóźnienie automatycznego zamykania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Otomatik kapanma gecikmesi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Auto-close delay"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动收起延迟"
           }
         }
       }
@@ -5510,6 +5658,39 @@
         }
       }
     },
+    "Clear all" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear all"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除全部"
+          }
+        }
+      }
+    },
+    "Clear clipboard history" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear clipboard history"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除剪贴板历史记录"
+          }
+        }
+      }
+    },
     "Clear slot" : {
       "localizations" : {
         "ar" : {
@@ -5606,6 +5787,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清空槽位"
+          }
+        }
+      }
+    },
+    "Clipboard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipboard"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剪贴板"
+          }
+        }
+      }
+    },
+    "Clipboard history is stored in memory and cleared when the app quits." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipboard history is stored in memory and cleared when the app quits."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剪贴板历史记录存储在内存中，并在退出应用时清空。"
           }
         }
       }
@@ -6429,8 +6642,24 @@
         }
       }
     },
-    "Copy" : {
+    "Copied text will appear here" : {
       "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied text will appear here"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制的内容将显示在这里"
+          }
+        }
+      }
+    },
+    "Copy" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8816,6 +9045,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "启用相机权限"
+          }
+        }
+      }
+    },
+    "Enable clipboard history" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable clipboard history"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用剪贴板历史"
           }
         }
       }
@@ -11844,6 +12089,22 @@
         }
       }
     },
+    "History" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "历史记录"
+          }
+        }
+      }
+    },
     "Hover delay" : {
       "localizations" : {
         "ar" : {
@@ -11944,102 +12205,102 @@
         }
       }
     },
-    "https:\/\/github.com\/pear-devs\/pear-desktop" : {
+    "https://github.com/pear-devs/pear-desktop" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "hu" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "https:\/\/github.com\/pear-devs\/pear-desktop"
+            "value" : "https://github.com/pear-devs/pear-desktop"
           }
         }
       }
@@ -12609,6 +12870,139 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "已安装扩展"
+          }
+        }
+      }
+    },
+    "Instant" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instant"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "즉시"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Natychmiast"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Anında"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Instant"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即"
+          }
+        }
+      }
+    },
+    "Items in history" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items in history"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "历史记录条数"
+          }
+        }
+      }
+    },
+    "Just now" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just now"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刚刚"
           }
         }
       }
@@ -13800,6 +14194,22 @@
         }
       }
     },
+    "Maximum history items" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maximum history items"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大历史记录条数"
+          }
+        }
+      }
+    },
     "Media" : {
       "localizations" : {
         "ar" : {
@@ -14636,6 +15046,22 @@
         }
       }
     },
+    "Monitors the system clipboard and keeps a history of copied items accessible from the notch." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitors the system clipboard and keeps a history of copied items accessible from the notch."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "监控系统剪贴板，并在 Notch 中保留复制项目的历史记录。"
+          }
+        }
+      }
+    },
     "More" : {
       "localizations" : {
         "ar" : {
@@ -15268,6 +15694,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无操作"
+          }
+        }
+      }
+    },
+    "No clipboard history" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No clipboard history"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无剪贴板历史"
           }
         }
       }
@@ -17281,19 +17724,19 @@
         }
       }
     },
-    "Play\/Pause" : {
+    "Play/Pause" : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Play\/Pause"
+            "value" : "Play/Pause"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "播放\/暂停"
+            "value" : "播放/暂停"
           }
         }
       }
@@ -18467,7 +18910,6 @@
       }
     },
     "Remove" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -20300,6 +20742,22 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "显示日历"
+          }
+        }
+      }
+    },
+    "Show clipboard tab in notch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show clipboard tab in notch"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 Notch 中显示剪贴板选项卡"
           }
         }
       }
@@ -22866,7 +23324,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Activer\/désactiver le Notch Ouvert:"
+            "value" : "Activer/désactiver le Notch Ouvert:"
           }
         },
         "hu" : {
@@ -22890,7 +23348,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Włącz\/wyłącz Notch:"
+            "value" : "Włącz/wyłącz Notch:"
           }
         },
         "pt-BR" : {
@@ -22908,7 +23366,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Çentik Aç\/Kapat:"
+            "value" : "Çentik Aç/Kapat:"
           }
         },
         "uk" : {
@@ -22966,7 +23424,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Activer\/désactiver Sneak Peek:"
+            "value" : "Activer/désactiver Sneak Peek:"
           }
         },
         "hu" : {
@@ -22990,7 +23448,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Włącz\/wyłącz podgląd:"
+            "value" : "Włącz/wyłącz podgląd:"
           }
         },
         "pt-BR" : {
@@ -23008,7 +23466,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Ön izlemeyi Aç\/Kapat:"
+            "value" : "Ön izlemeyi Aç/Kapat:"
           }
         },
         "uk" : {
@@ -24145,102 +24603,102 @@
         }
       }
     },
-    "View on GitHub: pear-devs\/pear-desktop" : {
+    "View on GitHub: pear-devs/pear-desktop" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Auf GitHub: pear-devs\/pear-desktop anschauen"
+            "value" : "Auf GitHub: pear-devs/pear-desktop anschauen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "hu" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "GitHub에서 보기: pear-devs\/pear-desktop"
+            "value" : "GitHub에서 보기: pear-devs/pear-desktop"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Zobacz na GitHub: pear-devs\/pear-desktop"
+            "value" : "Zobacz na GitHub: pear-devs/pear-desktop"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "View on GitHub: pear-devs\/pear-desktop"
+            "value" : "View on GitHub: pear-devs/pear-desktop"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在 GitHub 查看：pear-devs\/pear-desktop"
+            "value" : "在 GitHub 查看：pear-devs/pear-desktop"
           }
         }
       }
@@ -25163,6 +25621,12 @@
           }
         }
       }
+    },
+    "z" : {
+
+    },
+    "Z" : {
+
     }
   },
   "version" : "1.0"

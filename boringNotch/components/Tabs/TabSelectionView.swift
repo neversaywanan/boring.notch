@@ -5,6 +5,7 @@
 //  Created by Hugo Persson on 2024-08-25.
 //
 
+import Defaults
 import SwiftUI
 
 struct TabModel: Identifiable {
@@ -14,14 +15,23 @@ struct TabModel: Identifiable {
     let view: NotchViews
 }
 
-let tabs = [
-    TabModel(label: "Home", icon: "house.fill", view: .home),
-    TabModel(label: "Shelf", icon: "tray.fill", view: .shelf)
-]
-
 struct TabSelectionView: View {
     @ObservedObject var coordinator = BoringViewCoordinator.shared
+    @Default(.clipboardShowInTabs) var clipboardShowInTabs
+    @Default(.clipboardEnabled) var clipboardEnabled
     @Namespace var animation
+
+    private var tabs: [TabModel] {
+        var result = [
+            TabModel(label: "Home", icon: "house.fill", view: .home),
+            TabModel(label: "Shelf", icon: "tray.fill", view: .shelf)
+        ]
+        if clipboardEnabled && clipboardShowInTabs {
+            result.append(TabModel(label: "Clipboard", icon: "doc.on.clipboard", view: .clipboard))
+        }
+        return result
+    }
+
     var body: some View {
         HStack(spacing: 0) {
             ForEach(tabs) { tab in
@@ -51,3 +61,4 @@ struct TabSelectionView: View {
 #Preview {
     BoringHeader().environmentObject(BoringViewModel())
 }
+

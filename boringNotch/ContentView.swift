@@ -34,8 +34,8 @@ struct ContentView: View {
     @Namespace var albumArtNamespace
 
     @Default(.useMusicVisualizer) var useMusicVisualizer
-
     @Default(.showNotHumanFace) var showNotHumanFace
+    @Default(.mouseExitAutoCloseDelay) var mouseExitAutoCloseDelay
 
     // Shared interactive spring for movement/resizing to avoid conflicting animations
     private let animationSpring = Animation.interactiveSpring(response: 0.38, dampingFraction: 0.8, blendDuration: 0)
@@ -149,16 +149,7 @@ struct ContentView: View {
                     }
                     .onReceive(NotificationCenter.default.publisher(for: .sharingDidFinish)) { _ in
                         if vm.notchState == .open && !isHovering && !vm.isBatteryPopoverActive {
-                            hoverTask?.cancel()
-                            hoverTask = Task {
-                                try? await Task.sleep(for: .milliseconds(100))
-                                guard !Task.isCancelled else { return }
-                                await MainActor.run {
-                                    if self.vm.notchState == .open && !self.isHovering && !self.vm.isBatteryPopoverActive && !SharingStateManager.shared.preventNotchClose {
-                                        self.vm.close()
-                                    }
-                                }
-                            }
+                            scheduleAutoCloseIfNeeded()
                         }
                     }
                     .onChange(of: vm.notchState) { _, newState in
@@ -170,16 +161,7 @@ struct ContentView: View {
                     }
                     .onChange(of: vm.isBatteryPopoverActive) {
                         if !vm.isBatteryPopoverActive && !isHovering && vm.notchState == .open && !SharingStateManager.shared.preventNotchClose {
-                            hoverTask?.cancel()
-                            hoverTask = Task {
-                                try? await Task.sleep(for: .milliseconds(100))
-                                guard !Task.isCancelled else { return }
-                                await MainActor.run {
-                                    if !self.vm.isBatteryPopoverActive && !self.isHovering && self.vm.notchState == .open && !SharingStateManager.shared.preventNotchClose {
-                                        self.vm.close()
-                                    }
-                                }
-                            }
+                            scheduleAutoCloseIfNeeded()
                         }
                     }
                     .sensoryFeedback(.alignment, trigger: haptics)
@@ -347,14 +329,23 @@ struct ContentView: View {
                 ZStack {
                     if coordinator.currentView == .home {
                         NotchHomeView(albumArtNamespace: albumArtNamespace)
+                            .id(NotchViews.home)
                             .transition(pageTransition(for: coordinator.currentViewTransitionDirection))
                             .zIndex(coordinator.currentView == .home ? 1 : 0)
                     }
 
                     if coordinator.currentView == .shelf {
                         ShelfView()
+                            .id(NotchViews.shelf)
                             .transition(pageTransition(for: coordinator.currentViewTransitionDirection))
                             .zIndex(coordinator.currentView == .shelf ? 1 : 0)
+                    }
+
+                    if coordinator.currentView == .clipboard {
+                        ClipboardView()
+                            .id(NotchViews.clipboard)
+                            .transition(pageTransition(for: coordinator.currentViewTransitionDirection))
+                            .zIndex(coordinator.currentView == .clipboard ? 1 : 0)
                     }
                 }
                 .clipped()
@@ -380,7 +371,14 @@ struct ContentView: View {
                 Rectangle()
                     .fill(.black)
                     .frame(width: vm.closedNotchSize.width - 20)
-                MinimalFaceFeatures()
+                MinimalFaceFeatures(
+                    screenUUID: vm.screenUUID,
+                    faceAnchorOffset: CGSize(
+                        width: (max(0, vm.effectiveClosedNotchHeight - 12) + (vm.closedNotchSize.width - 20)) / 2,
+                        height: max(12, vm.effectiveClosedNotchHeight / 2)
+                    ),
+                    interactive: true
+                )
             }
         }.frame(
             height: vm.effectiveClosedNotchHeight,
@@ -543,19 +541,32 @@ struct ContentView: View {
                 }
             }
         } else {
-            hoverTask = Task {
-                try? await Task.sleep(for: .milliseconds(100))
-                guard !Task.isCancelled else { return }
-                
-                await MainActor.run {
-                    withAnimation(animationSpring) {
-                        self.isHovering = false
-                    }
-                    
-                    if self.vm.notchState == .open && !self.vm.isBatteryPopoverActive && !SharingStateManager.shared.preventNotchClose {
-                        self.vm.close()
-                    }
-                }
+            withAnimation(animationSpring) {
+                isHovering = false
+            }
+
+            guard vm.notchState == .open else { return }
+            scheduleAutoCloseIfNeeded()
+        }
+    }
+
+    private func scheduleAutoCloseIfNeeded() {
+        hoverTask?.cancel()
+
+        let delay = max(0, mouseExitAutoCloseDelay)
+        hoverTask = Task {
+            if delay > 0 {
+                try? await Task.sleep(for: .seconds(delay))
+            }
+            guard !Task.isCancelled else { return }
+
+            await MainActor.run {
+                guard !self.isHovering,
+                      self.vm.notchState == .open,
+                      !self.vm.isBatteryPopoverActive,
+                      !SharingStateManager.shared.preventNotchClose else { return }
+
+                self.vm.close()
             }
         }
     }

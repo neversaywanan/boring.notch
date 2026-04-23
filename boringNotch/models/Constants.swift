@@ -90,6 +90,7 @@ extension Defaults.Keys {
     
     // MARK: Behavior
     static let minimumHoverDuration = Key<TimeInterval>("minimumHoverDuration", default: 0.3)
+    static let mouseExitAutoCloseDelay = Key<TimeInterval>("mouseExitAutoCloseDelay", default: 0.1)
     static let enableHaptics = Key<Bool>("enableHaptics", default: true)
     static let openNotchOnHover = Key<Bool>("openNotchOnHover", default: true)
     static let extendHoverArea = Key<Bool>("extendHoverArea", default: false)
@@ -183,6 +184,11 @@ extension Defaults.Keys {
     static let copyOnDrag = Key<Bool>("copyOnDrag", default: false)
     static let autoRemoveShelfItems = Key<Bool>("autoRemoveShelfItems", default: false)
     static let expandedDragDetection = Key<Bool>("expandedDragDetection", default: true)
+    
+    // MARK: Clipboard
+    static let clipboardEnabled = Key<Bool>("clipboardEnabled", default: true)
+    static let clipboardMaxItems = Key<Int>("clipboardMaxItems", default: 20)
+    static let clipboardShowInTabs = Key<Bool>("clipboardShowInTabs", default: true)
     
     // MARK: Calendar
     static let calendarSelectionState = Key<CalendarSelectionState>("calendarSelectionState", default: .all)

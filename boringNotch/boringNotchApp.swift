@@ -442,6 +442,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         previousScreens = NSScreen.screens
+        
+        // Initialize clipboard manager to start tracking system clipboard in background
+        _ = ClipboardManager.shared
     }
 
     func playWelcomeSound() {

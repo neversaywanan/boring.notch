@@ -83,6 +83,13 @@ struct SettingsView: View {
                         BoringIcon.image("library", fallbackSystemName: "books.vertical")
                     }
                 }
+                NavigationLink(value: "Clipboard") {
+                    Label {
+                        Text("Clipboard")
+                    } icon: {
+                        Image(systemName: "doc.on.clipboard")
+                    }
+                }
                 NavigationLink(value: "Shortcuts") {
                     Label {
                         Text("Shortcuts")
@@ -129,6 +136,8 @@ struct SettingsView: View {
                     Charge()
                 case "Shelf":
                     Shelf()
+                case "Clipboard":
+                    ClipboardSettings()
                 case "Shortcuts":
                     Shortcuts()
                 case "Extensions":
@@ -183,6 +192,7 @@ struct GeneralSettings: View {
     @Default(.showEmojis) var showEmojis
     @Default(.gestureSensitivity) var gestureSensitivity
     @Default(.minimumHoverDuration) var minimumHoverDuration
+    @Default(.mouseExitAutoCloseDelay) var mouseExitAutoCloseDelay
     @Default(.nonNotchHeight) var nonNotchHeight
     @Default(.nonNotchHeightMode) var nonNotchHeightMode
     @Default(.notchHeight) var notchHeight
@@ -386,6 +396,24 @@ struct GeneralSettings: View {
                 .onChange(of: minimumHoverDuration) {
                     NotificationCenter.default.post(
                         name: Notification.Name.notchHeightChanged, object: nil)
+                }
+            }
+            Slider(
+                value: Binding(
+                    get: { mouseExitAutoCloseDelay },
+                    set: { mouseExitAutoCloseDelay = ($0 * 10).rounded() / 10 }
+                ),
+                in: 0...5
+            ) {
+                HStack {
+                    Text("Auto-close delay")
+                    Spacer()
+                    Text(
+                        mouseExitAutoCloseDelay == 0
+                            ? L("Instant")
+                            : "\(String(format: "%.1f", mouseExitAutoCloseDelay))s"
+                    )
+                    .foregroundStyle(.secondary)
                 }
             }
         } header: {
@@ -1059,6 +1087,75 @@ struct Shelf: View {
         }
         .accentColor(.effectiveAccent)
         .navigationTitle("Shelf")
+    }
+}
+
+struct ClipboardSettings: View {
+    @Default(.clipboardEnabled) var clipboardEnabled
+    @Default(.clipboardMaxItems) var clipboardMaxItems
+    @Default(.clipboardShowInTabs) var clipboardShowInTabs
+    @ObservedObject var clipboardManager = ClipboardManager.shared
+
+    var body: some View {
+        Form {
+            Section {
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Enable clipboard history")
+                            .font(.headline)
+                        Text("Monitors the system clipboard and keeps a history of copied items accessible from the notch.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 40)
+                    Defaults.Toggle("", key: .clipboardEnabled)
+                        .labelsHidden()
+                        .toggleStyle(.switch)
+                        .controlSize(.large)
+                }
+            }
+
+            Section {
+                Defaults.Toggle(key: .clipboardShowInTabs) {
+                    Text("Show clipboard tab in notch")
+                }
+
+                Stepper(value: $clipboardMaxItems, in: 5...100, step: 5) {
+                    HStack {
+                        Text("Maximum history items")
+                        Spacer()
+                        Text("\(clipboardMaxItems)")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            } header: {
+                Text("General")
+            } footer: {
+                Text("Clipboard history is stored in memory and cleared when the app quits.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .disabled(!clipboardEnabled)
+
+            Section {
+                HStack {
+                    Text("Items in history")
+                    Spacer()
+                    Text("\(clipboardManager.items.count)")
+                        .foregroundStyle(.secondary)
+                }
+                Button("Clear clipboard history") {
+                    clipboardManager.clearAll()
+                }
+                .disabled(clipboardManager.items.isEmpty)
+            } header: {
+                Text("History")
+            }
+            .disabled(!clipboardEnabled)
+        }
+        .accentColor(.effectiveAccent)
+        .navigationTitle("Clipboard")
     }
 }
 

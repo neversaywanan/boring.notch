@@ -18,12 +18,27 @@ private func L(_ key: String) -> String {
 
 struct MusicPlayerView: View {
     @EnvironmentObject var vm: BoringViewModel
+    @State private var isPresented = false
     let albumArtNamespace: Namespace.ID
+
+    private let entryAnimation = Animation.interactiveSpring(response: 0.34, dampingFraction: 0.72, blendDuration: 0)
 
     var body: some View {
         HStack {
             AlbumArtView(vm: vm, albumArtNamespace: albumArtNamespace).padding(.all, 5)
             MusicControlsView().drawingGroup().compositingGroup()
+        }
+        .scaleEffect(isPresented ? 1 : 0.965, anchor: .leading)
+        .opacity(isPresented ? 1 : 0.92)
+        .offset(x: isPresented ? 0 : 20)
+        .onAppear {
+            guard !isPresented else { return }
+            withAnimation(entryAnimation) {
+                isPresented = true
+            }
+        }
+        .onDisappear {
+            isPresented = false
         }
     }
 }
