@@ -11,6 +11,12 @@
 这个仓库现在作为我个人维护的 Boring Notch 项目继续开发。
 当前重点是围绕 macOS 刘海区交互做功能扩展、界面打磨和本地实验。
 
+> [!NOTE]
+> 这个项目延续自原始上游仓库：
+> [TheBoredTeam/boring.notch](https://github.com/TheBoredTeam/boring.notch)
+>
+> 当前代码库以我个人维护和持续开发为主，但这里仍然保留原项目链接，用于来源说明和致谢。
+
 当前方向：
 
 - 围绕 macOS 刘海区的媒体与效率工具体验

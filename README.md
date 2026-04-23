@@ -19,6 +19,12 @@
 This repository is now maintained as my personal Boring Notch development project.
 It focuses on iterative feature work, UI refinement, and local experimentation on macOS.
 
+> [!NOTE]
+> This project continues from the original upstream repository:
+> [TheBoredTeam/boring.notch](https://github.com/TheBoredTeam/boring.notch)
+>
+> The current codebase is maintained as my personal development version, but the original project link is kept here for reference and attribution.
+
 Current direction:
 
 - notch-based media and utility experience for macOS
