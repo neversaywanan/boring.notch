@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://theboring.name"><img src="https://framerusercontent.com/images/RFK4vs0kn8pRMuOO58JeyoemXA.png?scale-down-to=256" alt="Boring Notch" width="150"></a>
+  <a href="https://github.com/neversaywanan/boring.notch"><img src="./newappicon.png" alt="Boring Notch App Icon" width="150"></a>
   <br>
   Boring Notch
   <br>
@@ -20,7 +20,11 @@
 
 <!--Welcome to **Boring.Notch**, the coolest way to make your MacBook's notch the star of the show! Forget about those boring status bars—our notch turns into a dynamic music control center, complete with a snazzy visualizer and all the music controls you need. It's like having a mini concert right at the top of your screen! -->
 
-Say hello to **Boring Notch**, the coolest way to make your MacBook’s notch the star of the show! Say goodbye to boring status bars: with Boring Notch, your notch transforms into a dynamic music control center, complete with a vibrant visualizer and all the essential music controls you need. But that’s just the start! Boring Notch also offers calendar integration, a handy file shelf with AirDrop support, a complete MacOS HUD replacement and more!
+> [!NOTE]
+> This repository is a personal development branch built on top of the original [TheBoredTeam/boring.notch](https://github.com/TheBoredTeam/boring.notch) project.
+> If you are looking for the official project, releases, and upstream roadmap, start there first.
+
+Say hello to **Boring Notch**, the coolest way to make your MacBook's notch the star of the show. The upstream project already turns the notch into a dynamic music control center with calendar integration, a file shelf with AirDrop support, and a full macOS HUD replacement. This fork continues that foundation with branch-specific UI refinements, branding updates, and a few extra quality-of-life features.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2d5f69c1-6e7b-4bc2-a6f1-bb9e27cf88a8" alt="Demo GIF" />
@@ -28,6 +32,21 @@ Say hello to **Boring Notch**, the coolest way to make your MacBook’s notch th
 
 <!--https://github.com/user-attachments/assets/19b87973-4b3a-4853-b532-7e82d1d6b040-->
 ---
+## This Branch
+
+- Original upstream project: [TheBoredTeam/boring.notch](https://github.com/TheBoredTeam/boring.notch)
+- This repository: independent branch development and customization on top of upstream
+- Official stable releases: use the upstream release page unless this fork publishes its own release artifacts
+
+## Recent Branch Updates (April 21-24, 2026)
+
+- Added a **Clipboard** tab inside the notch with clipboard history, quick recopy, and item removal actions.
+- Added **clipboard settings** so the feature can be enabled or disabled, shown or hidden from tabs, and limited to a configurable history size.
+- Refreshed parts of the **notch UI and animation flow**, including tab handling and related interface polish.
+- Updated the **app icon set and README branding** to match the current app identity used by this fork.
+- Refined **XPC helper and accessibility authorization behavior** to make system integration and settings behavior more reliable.
+- Expanded **localization and onboarding/settings polish** across the recent branch changes.
+
 <!--## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -49,9 +68,14 @@ Say hello to **Boring Notch**, the coolest way to make your MacBook’s notch th
 
 ### Option 1: Download and Install Manually
 
+This option points to the **official upstream release**:
+
 <a href="https://github.com/TheBoredTeam/boring.notch/releases/latest/download/boringNotch.dmg" target="_self"><img width="200" src="https://github.com/user-attachments/assets/e3179be1-8416-4b8a-b417-743e1ecc67d6" alt="Download for macOS" /></a>
 
 Once downloaded, open the `.dmg` and move **Boring Notch** to your `/Applications` folder.
+
+> [!NOTE]
+> The branch-specific changes documented above may not be included in the upstream downloadable release yet. To use this fork's latest customizations, build this repository from source.
 
 > [!IMPORTANT]
 > We don't have an Apple Developer account (yet 👀), so macOS will warn you that Boring Notch is from an unidentified developer on first launch. This is expected behavior.
@@ -89,7 +113,7 @@ Then open the app normally.
 
 ### Option 2: Install via Homebrew
 
-You can also install using [Homebrew](https://brew.sh). The Homebrew installation automatically bypasses the macOS security warning described above.
+You can also install the **official upstream build** using [Homebrew](https://brew.sh). The Homebrew installation automatically bypasses the macOS security warning described above.
 
 ```bash
 brew install --cask TheBoredTeam/boring-notch/boring-notch
@@ -138,7 +162,7 @@ brew install --cask TheBoredTeam/boring-notch/boring-notch
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/TheBoredTeam/boring.notch.git
+   git clone https://github.com/neversaywanan/boring.notch.git
    cd boring.notch
    ```
 
@@ -187,5 +211,4 @@ For a full list of licenses and attributions, please see the [Third-Party Licens
 
 - **SwiftUI**: For making us look like coding wizards.
 - **You**: For being awesome and checking out **boring.notch**!
-
 
