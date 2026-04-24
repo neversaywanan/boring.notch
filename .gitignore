@@ -53,3 +53,9 @@ build/
 *.xcarchive
 *.dSYM
 
+
+# Python virtual environment
+.venv/
+
+# Build distribution
+dist/

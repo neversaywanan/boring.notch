@@ -16,7 +16,7 @@ enum CatExpression: Equatable {
 }
 
 enum CatEmotion: Equatable, CaseIterable {
-    case relief, zzz, hungry, happy, angry
+    case zzz, happy, angry
 }
 
 @MainActor
@@ -53,6 +53,8 @@ final class FaceAnimationController: ObservableObject {
             startRandomEmotionCycle()
             startBlinkLoopIfNeeded()
             resetSleepTimer()
+            // Show a heart on start
+            triggerEmotion(.happy)
         } else {
             stopMouseTracking()
             settleFace()
@@ -167,7 +169,6 @@ final class FaceAnimationController: ObservableObject {
                 // Tickling below
                 if expression != .angry {
                     triggerExpression(.winking)
-                    triggerEmotion(.relief)
                 }
             }
         }
@@ -216,6 +217,7 @@ final class FaceAnimationController: ObservableObject {
             withAnimation(.easeOut(duration: 0.3)) {
                 if self.expression != .sleeping {
                     self.expression = .neutral
+                    self.activeEmotion = nil // Ensure emotion icon is cleared
                 }
             }
             self.stopWinkCycle()
@@ -243,10 +245,18 @@ final class FaceAnimationController: ObservableObject {
         }
         
         emotionTimer?.invalidate()
-        emotionTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
-            Task { @MainActor [weak self] in
-                withAnimation(.easeOut(duration: 0.5)) {
-                    self?.activeEmotion = nil
+        
+        // ZZZ and Angry persist as long as the state is active
+        // Others fade out after 3.5 seconds
+        if emotion != .zzz && emotion != .angry {
+            emotionTimer = Timer.scheduledTimer(withTimeInterval: 3.5, repeats: false) { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    // Only clear if we haven't switched to a persistent emotion
+                    if self?.activeEmotion != .zzz && self?.activeEmotion != .angry {
+                        withAnimation(.easeOut(duration: 0.5)) {
+                            self?.activeEmotion = nil
+                        }
+                    }
                 }
             }
         }
@@ -280,8 +290,8 @@ struct MinimalFaceFeatures: View {
     var screenUUID: String? = nil
     var faceAnchorOffset: CGSize = .zero
     var interactive: Bool = false
-    var height: CGFloat = 18
-    var width: CGFloat = 28
+    var height: CGFloat = 20
+    var width: CGFloat = 32
 
     var body: some View {
         GeometryReader { geometry in
@@ -340,7 +350,8 @@ struct CuriousCatFace: View {
     let canvasSize: CGSize
 
     private var headTilt: Double {
-        0 // Head tilt removed
+        if expression == .sleeping { return 10.0 }
+        return 0
     }
 
     private var faceOffset: CGSize {
@@ -354,7 +365,7 @@ struct CuriousCatFace: View {
             // Emotion Icon at top-left
             if let emotion = activeEmotion {
                 EmotionIconView(emotion: emotion, canvasSize: canvasSize)
-                    .offset(x: -canvasSize.width * 0.45, y: -canvasSize.height * 0.35)
+                    .offset(x: -canvasSize.width * 0.35, y: -canvasSize.height * 0.45)
                     .transition(.asymmetric(
                         insertion: .scale(scale: 0.1).combined(with: .opacity).combined(with: .move(edge: .bottom)),
                         removal: .opacity.combined(with: .scale(scale: 0.5))
@@ -399,25 +410,25 @@ struct CuriousCatFace: View {
                 alertness: alertness,
                 expression: expression
             )
-            .offset(x: faceOffset.width * 0.6, y: canvasSize.height * 0.12 + faceOffset.height)
+            .offset(x: faceOffset.width * 0.6, y: canvasSize.height * 0.18 + faceOffset.height)
 
-            CatWhiskers(
-                side: .left,
-                canvasSize: canvasSize,
-                alertness: alertness,
-                expression: expression,
-                strokeWidth: strokeWidth
-            )
-            .offset(x: canvasSize.width * -0.18, y: canvasSize.height * 0.08 + faceOffset.height * 0.6)
+//            CatWhiskers(
+//                side: .left,
+//                canvasSize: canvasSize,
+//                alertness: alertness,
+//                expression: expression,
+//                strokeWidth: strokeWidth
+//            )
+//            .offset(x: -canvasSize.width * 0.12, y: canvasSize.height * 0.18)
 
-            CatWhiskers(
-                side: .right,
-                canvasSize: canvasSize,
-                alertness: alertness,
-                expression: expression,
-                strokeWidth: strokeWidth
-            )
-            .offset(x: canvasSize.width * 0.18, y: canvasSize.height * 0.08 + faceOffset.height * 0.6)
+//            CatWhiskers(
+//                side: .right,
+//                canvasSize: canvasSize,
+//                alertness: alertness,
+//                expression: expression,
+//                strokeWidth: strokeWidth
+//            )
+//            .offset(x: canvasSize.width * 0.12, y: canvasSize.height * 0.18)
         }
         .rotationEffect(.degrees(headTilt))
         .offset(faceOffset)
@@ -435,9 +446,7 @@ struct EmotionIconView: View {
         let size = canvasSize.width * 0.32
         Group {
             switch emotion {
-            case .relief: reliefIcon
             case .zzz: zzzIcon
-            case .hungry: hungryIcon
             case .happy: happyIcon
             case .angry: angryIcon
             }
@@ -446,52 +455,35 @@ struct EmotionIconView: View {
         .foregroundColor(.white.opacity(0.9))
     }
     
-    private var reliefIcon: some View {
-        Path { path in
-            path.move(to: CGPoint(x: 2, y: 8))
-            path.addQuadCurve(to: CGPoint(x: 8, y: 8), control: CGPoint(x: 5, y: 2))
-            path.move(to: CGPoint(x: 4, y: 5))
-            path.addLine(to: CGPoint(x: 6, y: 5))
-        }
-        .stroke(style: StrokeStyle(lineWidth: 1.2, lineCap: .round))
-    }
-    
     private var zzzIcon: some View {
-        VStack(spacing: -1) {
-            Text("Z").font(.system(size: 7, weight: .black))
-            Text("z").font(.system(size: 5, weight: .bold)).offset(x: 3)
-            Text("z").font(.system(size: 4, weight: .medium)).offset(x: 5)
-        }
-    }
-    
-    private var hungryIcon: some View {
-        Path { path in
-            path.move(to: CGPoint(x: 1, y: 5))
-            path.addLine(to: CGPoint(x: 9, y: 5))
-            for i in [3, 6] {
-                path.move(to: CGPoint(x: CGFloat(i), y: 2))
-                path.addLine(to: CGPoint(x: CGFloat(i), y: 8))
-            }
-            path.move(to: CGPoint(x: 11, y: 4))
-            path.addLine(to: CGPoint(x: 11, y: 6))
-        }
-        .stroke(style: StrokeStyle(lineWidth: 1.2, lineCap: .round))
+        ZZZAnimationView()
     }
     
     private var happyIcon: some View {
-        Image(systemName: "sparkles")
+        Image(systemName: "heart.fill")
             .resizable()
             .scaledToFit()
+            .foregroundColor(.red.opacity(0.9))
     }
     
     private var angryIcon: some View {
         Path { path in
-            path.move(to: CGPoint(x: 2, y: 2))
-            path.addQuadCurve(to: CGPoint(x: 8, y: 8), control: CGPoint(x: 8, y: 2))
-            path.move(to: CGPoint(x: 8, y: 2))
-            path.addQuadCurve(to: CGPoint(x: 2, y: 8), control: CGPoint(x: 2, y: 2))
+            let s = canvasSize.width * 0.32
+            // Two vertical-ish bulging curves
+            path.move(to: CGPoint(x: s * 0.25, y: s * 0.1))
+            path.addQuadCurve(to: CGPoint(x: s * 0.25, y: s * 0.9), control: CGPoint(x: s * 0.05, y: s * 0.5))
+            
+            path.move(to: CGPoint(x: s * 0.75, y: s * 0.1))
+            path.addQuadCurve(to: CGPoint(x: s * 0.75, y: s * 0.9), control: CGPoint(x: s * 0.95, y: s * 0.5))
+            
+            // Two horizontal-ish bulging curves
+            path.move(to: CGPoint(x: s * 0.1, y: s * 0.25))
+            path.addQuadCurve(to: CGPoint(x: s * 0.9, y: s * 0.25), control: CGPoint(x: s * 0.5, y: s * 0.05))
+            
+            path.move(to: CGPoint(x: s * 0.1, y: s * 0.75))
+            path.addQuadCurve(to: CGPoint(x: s * 0.9, y: s * 0.75), control: CGPoint(x: s * 0.5, y: s * 0.95))
         }
-        .stroke(style: StrokeStyle(lineWidth: 1.2, lineCap: .round))
+        .stroke(Color.red.opacity(0.95), style: StrokeStyle(lineWidth: 1.5, lineCap: .round))
     }
 }
 
@@ -620,37 +612,37 @@ struct CatNoseAndMouth: View {
     let expression: CatExpression
 
     var body: some View {
-        let noseWidth = max(2.5, canvasSize.width * 0.08)
-        let noseHeight = max(1.5, canvasSize.height * 0.05)
+        let noseWidth = max(2.0, canvasSize.width * 0.06)
+        let noseHeight = max(1.2, canvasSize.height * 0.04)
 
         ZStack {
             // Cute small oval nose
             Ellipse()
                 .fill(Color.white)
                 .frame(width: noseWidth, height: noseHeight)
-                .offset(y: -noseHeight)
+                .offset(y: -noseHeight * 0.6)
 
             // "ω" mouth
-            Path { path in
-                let w = noseWidth * 1.2
-                let h = noseHeight * 1.5 + alertness * noseHeight * 0.8
-                
-                path.move(to: CGPoint(x: -w, y: 0))
-                path.addCurve(
-                    to: CGPoint(x: 0, y: 0),
-                    control1: CGPoint(x: -w, y: h),
-                    control2: CGPoint(x: 0, y: h)
-                )
-                path.addCurve(
-                    to: CGPoint(x: w, y: 0),
-                    control1: CGPoint(x: 0, y: h),
-                    control2: CGPoint(x: w, y: h)
-                )
-            }
-            .stroke(
-                Color.white,
-                style: StrokeStyle(lineWidth: max(1.2, canvasSize.height * 0.04), lineCap: .round)
-            )
+//            Path { path in
+//                let w = noseWidth * 1.5
+//                let h = noseHeight * 1.2 + alertness * noseHeight * 0.6
+//                
+//                path.move(to: CGPoint(x: -w, y: h * 0.2))
+//                path.addCurve(
+//                    to: CGPoint(x: 0, y: h * 0.2),
+//                    control1: CGPoint(x: -w, y: h),
+//                    control2: CGPoint(x: 0, y: h)
+//                )
+//                path.addCurve(
+//                    to: CGPoint(x: w, y: h * 0.2),
+//                    control1: CGPoint(x: 0, y: h),
+//                    control2: CGPoint(x: w, y: h)
+//                )
+//            }
+//            .stroke(
+//                Color.green,
+//                style: StrokeStyle(lineWidth: max(1.0, canvasSize.height * 0.035), lineCap: .round)
+//            )
         }
     }
 }
@@ -670,74 +662,64 @@ struct CatWhiskers: View {
         Path { path in
             let width = canvasSize.width
             let height = canvasSize.height
-            let startX = width * 0.06 * direction
-            let endX = width * 0.22 * direction
-            let alertLift = alertness * height * 0.015
+            
+            // Separation: start whiskers away from the center
+            let startX: CGFloat = width * 0.10 * direction
+            let endX = width * 0.32 * direction
+            let alertLift = alertness * height * 0.02
 
-            for index in 0..<2 {
-                let y = (CGFloat(index) - 0.5) * height * 0.12
-                let endY = y + (CGFloat(index) - 0.5) * (height * 0.02 + alertLift)
+            for index in 0..<3 {
+                let angle = (CGFloat(index) - 1.0) * 0.25
+                let y = (CGFloat(index) - 1.0) * height * 0.06
+                let endY = y + angle * height * 0.12 + (direction * alertLift * 0.5)
 
                 path.move(to: CGPoint(x: startX, y: y))
                 path.addQuadCurve(
                     to: CGPoint(x: endX, y: endY),
                     control: CGPoint(
                         x: (startX + endX) / 2,
-                        y: y + (CGFloat(index) - 0.5) * height * 0.03
+                        y: y + (CGFloat(index) - 1.0) * height * 0.01
                     )
                 )
             }
         }
         .stroke(
-            Color.white.opacity(0.8),
-            style: StrokeStyle(lineWidth: strokeWidth * 0.4, lineCap: .round)
+            Color.white.opacity(0.65),
+            style: StrokeStyle(lineWidth: strokeWidth * 0.28, lineCap: .round)
         )
     }
 }
 
-struct CatCheeks: View {
-    let canvasSize: CGSize
+struct ZZZAnimationView: View {
+    @State private var animate = false
 
     var body: some View {
-        HStack(spacing: canvasSize.width * 0.22) {
-            cheekMark
-            cheekMark
+        ZStack {
+            zLetter(text: "Z", size: 8, offset: 0, delay: 0)
+            zLetter(text: "z", size: 6, offset: 3, delay: 0.6)
+            zLetter(text: "z", size: 4, offset: 6, delay: 1.2)
         }
-    }
-
-    private var cheekMark: some View {
-        VStack(spacing: canvasSize.height * 0.03) {
-            Capsule()
-                .fill(Color.white.opacity(0.82))
-                .frame(width: canvasSize.width * 0.10, height: max(1.1, canvasSize.height * 0.02))
-                .rotationEffect(.degrees(-20))
-            Capsule()
-                .fill(Color.white.opacity(0.68))
-                .frame(width: canvasSize.width * 0.08, height: max(1.0, canvasSize.height * 0.018))
-                .rotationEffect(.degrees(-20))
-        }
-    }
-}
-
-struct Mouth: View {
-    let alertness: CGFloat
-
-    var body: some View {
-        GeometryReader { geometry in
-            Path { path in
-                let width = geometry.size.width
-                let height = geometry.size.height
-                let smileDepth = height * (0.95 - (alertness * 0.3))
-
-                path.move(to: CGPoint(x: 0, y: height / 2))
-                path.addQuadCurve(
-                    to: CGPoint(x: width, y: height / 2),
-                    control: CGPoint(x: width / 2, y: smileDepth)
-                )
+        .onAppear {
+            // Trigger animation with a slight delay to ensure onAppear is fully settled
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                animate = true
             }
-            .stroke(Color.white, lineWidth: 2)
         }
-        .animation(.easeOut(duration: 0.18), value: alertness)
+    }
+
+    @ViewBuilder
+    private func zLetter(text: String, size: CGFloat, offset: CGFloat, delay: Double) -> some View {
+        Text(text)
+            .font(.system(size: size, weight: .black))
+            .offset(x: offset + (animate ? 4 : 0), y: animate ? -12 : 0)
+            .opacity(animate ? 0 : 1)
+            .scaleEffect(animate ? 1.2 : 0.6)
+            .animation(
+                .easeInOut(duration: 2.0)
+                .repeatForever(autoreverses: false)
+                .delay(delay),
+                value: animate
+            )
     }
 }
 
@@ -747,6 +729,6 @@ struct MinimalFaceFeatures_Previews: PreviewProvider {
             Color.black
             MinimalFaceFeatures()
         }
-        .previewLayout(.fixed(width: 60, height: 60)) // Adjusted preview size for better visibility
+        .previewLayout(.fixed(width: 60, height: 60))
     }
 }

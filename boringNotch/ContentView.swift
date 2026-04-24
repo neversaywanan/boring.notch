@@ -374,11 +374,12 @@ struct ContentView: View {
                 MinimalFaceFeatures(
                     screenUUID: vm.screenUUID,
                     faceAnchorOffset: CGSize(
-                        width: (max(0, vm.effectiveClosedNotchHeight - 12) + (vm.closedNotchSize.width - 20)) / 2,
+                        width: (max(0, vm.effectiveClosedNotchHeight - 12) + (vm.closedNotchSize.width - 20)) / 2 + 12,
                         height: max(12, vm.effectiveClosedNotchHeight / 2)
                     ),
                     interactive: true
                 )
+                .padding(.leading, 12)
             }
         }.frame(
             height: vm.effectiveClosedNotchHeight,

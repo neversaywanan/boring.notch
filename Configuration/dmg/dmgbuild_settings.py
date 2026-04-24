@@ -21,7 +21,20 @@ format = 'UDZO'
 compression_level = 9
 
 # Files and symlinks to include in the DMG
-files = [APP_PATH] if APP_PATH else []
+# Note: dmgbuild execs this file, so __file__ might not be defined.
+# We use a fallback to the current directory if needed.
+try:
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+except NameError:
+    this_dir = os.path.abspath('Configuration/dmg')
+
+instruction_file = os.path.join(this_dir, 'resources', 'app 无法打开的问题.txt')
+files = []
+if APP_PATH:
+    files.append(APP_PATH)
+if os.path.exists(instruction_file):
+    files.append(instruction_file)
+
 symlinks = {'Applications': '/Applications'}
 
 # Background image path (dmgbuild will copy this file into the DMG's .background)
@@ -29,7 +42,7 @@ background = BACKGROUND
 
 
 # Window rectangle: ((left, top), (right, bottom))
-window_rect = ((0, 0), (660, 400))
+window_rect = ((0, 0), (660, 460))
 
 # Icon size (points)
 icon_size = 128
@@ -39,6 +52,7 @@ app_basename = os.path.basename(APP_PATH) if APP_PATH else 'boringNotch.app'
 icon_locations = {
     app_basename: (150, 180),
     'Applications': (510, 180),
+    'app 无法打开的问题.txt': (330, 320),
 }
 
 # Misc Finder options
